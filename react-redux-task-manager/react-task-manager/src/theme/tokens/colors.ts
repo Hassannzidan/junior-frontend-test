@@ -1,6 +1,6 @@
 /**
  * ClickUp-inspired brand primitives (Shark, Cornflower / Purple, accents).
- * Semantic tokens map these to light/dark UI roles.
+ * Semantic tokens map these to UI roles for the app shell.
  */
 export const brand = {
   purple: '#7B68EE',
@@ -8,6 +8,7 @@ export const brand = {
   hotPink: '#FD71AF',
   malibu: '#49CCF9',
   supernova: '#FFC800',
+  accentDeep: '#253837',
   white: '#FFFFFF',
 } as const
 
@@ -33,77 +34,38 @@ export const state = {
   info: brand.malibu,
 } as const
 
-export type ColorMode = 'light' | 'dark'
-
-export function getSemanticColors(mode: ColorMode) {
-  if (mode === 'light') {
-    return {
-      backgroundDefault: neutral[50],
-      backgroundPaper: brand.white,
-      textPrimary: brand.shark,
-      textSecondary: neutral[500],
-      textDisabled: neutral[400],
-      border: neutral[200],
-      divider: neutral[200],
-      subtleFill: neutral[100],
-      codeBackground: neutral[100],
-      primaryHover: '#6A56E5',
-      primarySelected: 'rgba(123, 104, 238, 0.12)',
-      focusRing: brand.purple,
-      shadow:
-        'rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px',
-      state: {
-        success: {
-          main: state.success,
-          subtle: 'rgba(45, 182, 98, 0.12)',
-        },
-        error: {
-          main: state.error,
-          subtle: 'rgba(229, 72, 77, 0.12)',
-        },
-        warning: {
-          main: state.warning,
-          subtle: 'rgba(255, 200, 0, 0.18)',
-        },
-        info: {
-          main: state.info,
-          subtle: 'rgba(73, 204, 249, 0.14)',
-        },
-      },
-    } as const
-  }
-
+export function getSemanticColors() {
   return {
-    backgroundDefault: neutral[900],
-    backgroundPaper: neutral[800],
-    textPrimary: neutral[100],
-    textSecondary: neutral[400],
-    textDisabled: neutral[500],
-    border: neutral[700],
-    divider: neutral[700],
-    subtleFill: 'rgba(255, 255, 255, 0.06)',
-    codeBackground: neutral[800],
-    primaryHover: '#8F7EF2',
-    primarySelected: 'rgba(123, 104, 238, 0.24)',
-    focusRing: '#A996F5',
+    backgroundDefault: neutral[50],
+    backgroundPaper: brand.white,
+    textPrimary: brand.shark,
+    textSecondary: neutral[500],
+    textDisabled: neutral[400],
+    border: neutral[200],
+    divider: neutral[200],
+    subtleFill: neutral[100],
+    codeBackground: neutral[100],
+    primaryHover: '#6A56E5',
+    primarySelected: 'rgba(123, 104, 238, 0.12)',
+    focusRing: brand.purple,
     shadow:
-      'rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px',
+      'rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px',
     state: {
       success: {
         main: state.success,
-        subtle: 'rgba(45, 182, 98, 0.22)',
+        subtle: 'rgba(45, 182, 98, 0.12)',
       },
       error: {
         main: state.error,
-        subtle: 'rgba(229, 72, 77, 0.22)',
+        subtle: 'rgba(229, 72, 77, 0.12)',
       },
       warning: {
         main: state.warning,
-        subtle: 'rgba(255, 200, 0, 0.16)',
+        subtle: 'rgba(255, 200, 0, 0.18)',
       },
       info: {
         main: state.info,
-        subtle: 'rgba(73, 204, 249, 0.18)',
+        subtle: 'rgba(73, 204, 249, 0.14)',
       },
     },
   } as const

@@ -1,12 +1,11 @@
 import { createTheme } from '@mui/material/styles'
 import { brand, getSemanticColors, neutral } from './tokens/colors'
-import type { ColorMode } from './tokens/colors'
 import { breakpointValues } from './tokens/breakpoints'
 import { spacingUnit } from './tokens/spacing'
 import { buildTypographyVariants } from './tokens/typography'
 
-export function createAppTheme(mode: ColorMode) {
-  const semantic = getSemanticColors(mode)
+export function createAppTheme() {
+  const semantic = getSemanticColors()
 
   const baseTheme = createTheme({
     spacing: spacingUnit,
@@ -17,7 +16,7 @@ export function createAppTheme(mode: ColorMode) {
 
   return createTheme(baseTheme, {
     palette: {
-      mode,
+      mode: 'light',
       grey: {
         50: neutral[50],
         100: neutral[100],
@@ -31,10 +30,7 @@ export function createAppTheme(mode: ColorMode) {
         900: neutral[900],
       },
       action: {
-        hover:
-          mode === 'light'
-            ? 'rgba(123, 104, 238, 0.06)'
-            : 'rgba(123, 104, 238, 0.14)',
+        hover: 'rgba(123, 104, 238, 0.06)',
         selected: semantic.subtleFill,
       },
       primary: {
@@ -56,6 +52,10 @@ export function createAppTheme(mode: ColorMode) {
       },
       success: {
         main: '#2DB662',
+        contrastText: brand.white,
+      },
+      brandAccent: {
+        main: brand.accentDeep,
         contrastText: brand.white,
       },
       background: {

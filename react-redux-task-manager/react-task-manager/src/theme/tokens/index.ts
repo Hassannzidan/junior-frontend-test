@@ -1,5 +1,4 @@
 export { brand, neutral, state, getSemanticColors } from './colors'
-export type { ColorMode } from './colors'
 export { fontFamily } from './fonts'
 export { space, spacingUnit } from './spacing'
 export { breakpointValues } from './breakpoints'
