@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
-import { TaskList } from './TaskList'
-import type { Task, TaskStatus } from '../types/task'
-import type { ViewMode } from './ViewModeToggle'
+import type { Task, TaskStatus } from '../../types/task'
+import type { ViewMode } from '../../types/viewMode'
+import { TaskList } from './task-list/TaskList'
 
 export type WorkspaceMainProps = {
   tasks: Task[]

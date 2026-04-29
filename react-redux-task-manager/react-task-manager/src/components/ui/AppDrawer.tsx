@@ -1,19 +1,14 @@
 import type { ReactNode } from 'react'
 import Box from '@mui/material/Box'
 import Drawer, { type DrawerProps } from '@mui/material/Drawer'
-import Stack from '@mui/material/Stack'
 
 export type AppDrawerProps = {
   open: boolean
   onClose: DrawerProps['onClose']
-  /** Top bar: title, close control, etc. */
   header: ReactNode
-  /** Main scrollable content */
   children: ReactNode
-  /** Bottom actions */
   footer: ReactNode
   anchor?: DrawerProps['anchor']
-  /** Paper width on larger breakpoints */
   width?: { xs?: number | string; sm?: number | string }
 }
 
@@ -91,28 +86,5 @@ export function AppDrawer({
         {footer}
       </Box>
     </Drawer>
-  )
-}
-
-/** Optional layout helper for header row (title + actions). */
-export function AppDrawerHeaderRow({
-  title,
-  actions,
-}: {
-  title: ReactNode
-  actions?: ReactNode
-}) {
-  return (
-    <Stack
-      direction="row"
-      sx={{
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 1,
-      }}
-    >
-      <Box sx={{ minWidth: 0 }}>{title}</Box>
-      {actions ? <Box sx={{ flexShrink: 0 }}>{actions}</Box> : null}
-    </Stack>
   )
 }

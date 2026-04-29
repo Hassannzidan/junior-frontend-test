@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import Button from '@mui/material/Button'
+import { useState } from 'react'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
@@ -12,19 +12,15 @@ import {
   TASK_FORM_STATUS_OPTIONS,
   type TaskFormPriorityValue,
   type TaskFormStatusValue,
-} from '../constants/taskFormOptions'
-import type { Task } from '../types/task'
-import { AppDrawer, AppDrawerHeaderRow } from './AppDrawer'
-import { FilterSelect } from './FilterSelect'
-import { PrimaryPillButton } from './PrimaryPillButton'
+} from '../../constants/taskFormOptions'
+import type { Task } from '../../types/task'
+import { AppDrawer, AppDrawerHeaderRow, FilterSelect, PrimaryPillButton } from '../ui'
 
 const MAX_TITLE_LEN = 300
 const MAX_DESCRIPTION_LEN = 5000
-
 const TASK_STATUS_VALUES = TASK_FORM_STATUS_OPTIONS.map((o) => o.value)
 const TASK_PRIORITY_VALUES = TASK_FORM_PRIORITY_OPTIONS.map((o) => o.value)
 
-/** Trim, length caps, and enum checks before creating a task */
 const newTaskFormSchema = yup.object({
   title: yup.string().trim().min(1, 'Enter a task name').max(MAX_TITLE_LEN, 'Task name is too long'),
   description: yup.string().trim().max(MAX_DESCRIPTION_LEN, 'Description is too long'),
@@ -41,7 +37,7 @@ function dueDateFromInput(isoDate: string): string | undefined {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
-export type NewTaskDrawerProps = {
+type NewTaskDrawerProps = {
   open: boolean
   onClose: () => void
   onAddTask: (task: Omit<Task, 'id'>) => void
@@ -59,22 +55,12 @@ function validationErrorsFromYup(err: yup.ValidationError): { title?: string; de
   const items = err.inner.length ? err.inner : [{ path: err.path, message: err.message }]
   const title = items.find((e) => e.path === 'title')?.message
   const description = items.find((e) => e.path === 'description')?.message
-  return {
-    ...(title ? { title } : {}),
-    ...(description ? { description } : {}),
-  }
+  return { ...(title ? { title } : {}), ...(description ? { description } : {}) }
 }
 
 export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) {
   const [form, setForm] = useState(emptyForm)
   const [fieldErrors, setFieldErrors] = useState<{ title?: string; description?: string }>({})
-
-  useEffect(() => {
-    if (open) {
-      setForm(emptyForm)
-      setFieldErrors({})
-    }
-  }, [open])
 
   const handleSubmit = () => {
     try {
@@ -110,13 +96,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             </Typography>
           }
           actions={
-            <IconButton
-              edge="end"
-              aria-label="Close"
-              onClick={onClose}
-              size="small"
-              sx={{ color: 'text.secondary' }}
-            >
+            <IconButton edge="end" aria-label="Close" onClick={onClose} size="small" sx={{ color: 'text.secondary' }}>
               <IconX size={20} stroke={1.75} />
             </IconButton>
           }
@@ -151,9 +131,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             helperText={fieldErrors.title}
             aria-label="Task name"
             slotProps={{ htmlInput: { 'aria-required': true, maxLength: MAX_TITLE_LEN } }}
-            sx={{
-              '& .MuiOutlinedInput-root': { borderRadius: 2 },
-            }}
+            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
         </div>
         <div>
@@ -175,40 +153,21 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             helperText={fieldErrors.description}
             aria-label="Task description"
             slotProps={{ htmlInput: { maxLength: MAX_DESCRIPTION_LEN } }}
-            sx={{
-              '& .MuiOutlinedInput-root': { borderRadius: 2 },
-            }}
+            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
         </div>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 2.5,
-            alignItems: 'stretch',
-          }}
-        >
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2.5, alignItems: 'stretch' }}>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
               Status
             </Typography>
-            <FilterSelect
-              value={form.status}
-              onChange={(value) => setForm((f) => ({ ...f, status: value }))}
-              options={TASK_FORM_STATUS_OPTIONS}
-              ariaLabel="Task status"
-            />
+            <FilterSelect value={form.status} onChange={(value) => setForm((f) => ({ ...f, status: value }))} options={TASK_FORM_STATUS_OPTIONS} ariaLabel="Task status" />
           </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
               Priority
             </Typography>
-            <FilterSelect
-              value={form.priority}
-              onChange={(value) => setForm((f) => ({ ...f, priority: value }))}
-              options={TASK_FORM_PRIORITY_OPTIONS}
-              ariaLabel="Task priority"
-            />
+            <FilterSelect value={form.priority} onChange={(value) => setForm((f) => ({ ...f, priority: value }))} options={TASK_FORM_PRIORITY_OPTIONS} ariaLabel="Task priority" />
           </Box>
         </Box>
         <div>
@@ -223,9 +182,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             size="small"
             aria-label="Due date"
             slotProps={{ inputLabel: { shrink: true } }}
-            sx={{
-              '& .MuiOutlinedInput-root': { borderRadius: 2 },
-            }}
+            sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
         </div>
       </Stack>

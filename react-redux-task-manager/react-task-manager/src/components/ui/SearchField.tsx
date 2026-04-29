@@ -2,7 +2,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { IconSearch } from '@tabler/icons-react'
 
-export type SearchFieldProps = {
+type SearchFieldProps = {
   value: string
   onChange: (value: string) => void
   placeholder?: string
@@ -26,10 +26,7 @@ export function SearchField({
       slotProps={{
         input: {
           startAdornment: (
-            <InputAdornment
-              position="start"
-              sx={{ color: 'text.secondary', mr: 4 / 8 }}
-            >
+            <InputAdornment position="start" sx={{ color: 'text.secondary', mr: 4 / 8 }}>
               <IconSearch size={18} stroke={1.75} aria-hidden />
             </InputAdornment>
           ),
@@ -50,10 +47,7 @@ export function SearchField({
           py: 1,
           fontSize: '0.875rem',
           color: 'text.primary',
-          '&::placeholder': {
-            color: 'text.secondary',
-            opacity: 1,
-          },
+          '&::placeholder': { color: 'text.secondary', opacity: 1 },
         },
       }}
     />

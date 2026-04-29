@@ -3,7 +3,7 @@ import ButtonBase from '@mui/material/ButtonBase'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { IconLayoutGrid, IconList } from '@tabler/icons-react'
-import type { ViewMode } from '../types/viewMode'
+import type { ViewMode } from '../../types/viewMode'
 
 export type { ViewMode }
 
@@ -12,18 +12,8 @@ export type ViewModeToggleProps = {
   onChange: (mode: ViewMode) => void
 }
 
-/** ClickUp-style toggle tokens (reference: list/board segmented control) */
-const track = {
-  bg: 'transparent',
-  border: 'rgba(74, 74, 226, 0.18)',
-} as const
-
-const segment = {
-  activeColor: '#4A4AE2',
-  activeBg: '#F5F3FF',
-  inactiveColor: '#5F6368',
-} as const
-
+const track = { bg: 'transparent', border: 'rgba(74, 74, 226, 0.18)' } as const
+const segment = { activeColor: '#4A4AE2', activeBg: '#F5F3FF', inactiveColor: '#5F6368' } as const
 const iconSize = 18
 
 export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
@@ -33,13 +23,9 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
   const insetX = theme.spacing(0.5)
   const insetY = theme.spacing(0.25)
   const gap = theme.spacing(0.5)
-
   const slideTransition = reduceMotion
     ? 'none'
-    : theme.transitions.create('transform', {
-        duration: theme.transitions.duration.standard,
-        easing: theme.transitions.easing.easeInOut,
-      })
+    : theme.transitions.create('transform', { duration: theme.transitions.duration.standard, easing: theme.transitions.easing.easeInOut })
 
   const segmentSx = (mode: ViewMode) => {
     const active = value === mode
@@ -60,9 +46,7 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
       fontWeight: 500,
       color: active ? segment.activeColor : segment.inactiveColor,
       bgcolor: 'transparent',
-      transition: theme.transitions.create('color', {
-        duration: theme.transitions.duration.shorter,
-      }),
+      transition: theme.transitions.create('color', { duration: theme.transitions.duration.shorter }),
       '& svg': { color: 'inherit' },
     } as const
   }
@@ -101,28 +85,15 @@ export function ViewModeToggle({ value, onChange }: ViewModeToggleProps) {
           bgcolor: segment.activeBg,
           zIndex: 0,
           transition: slideTransition,
-          transform:
-            value === 'board'
-              ? `translateX(calc(100% + ${gap}))`
-              : 'translateX(0)',
+          transform: value === 'board' ? `translateX(calc(100% + ${gap}))` : 'translateX(0)',
           pointerEvents: 'none',
         }}
       />
-      <ButtonBase
-        disableRipple
-        aria-pressed={value === 'list'}
-        onClick={() => onChange('list')}
-        sx={segmentSx('list')}
-      >
+      <ButtonBase disableRipple aria-pressed={value === 'list'} onClick={() => onChange('list')} sx={segmentSx('list')}>
         <IconList size={iconSize} stroke={1.75} aria-hidden />
         List
       </ButtonBase>
-      <ButtonBase
-        disableRipple
-        aria-pressed={value === 'board'}
-        onClick={() => onChange('board')}
-        sx={segmentSx('board')}
-      >
+      <ButtonBase disableRipple aria-pressed={value === 'board'} onClick={() => onChange('board')} sx={segmentSx('board')}>
         <IconLayoutGrid size={iconSize} stroke={1.75} aria-hidden />
         Board
       </ButtonBase>

@@ -6,12 +6,7 @@ export type PrimaryPillButtonProps = Omit<ButtonProps, 'variant' | 'color'> & {
   children: ReactNode
 }
 
-export function PrimaryPillButton({
-  children,
-  startIcon,
-  sx,
-  ...rest
-}: PrimaryPillButtonProps) {
+export function PrimaryPillButton({ children, startIcon, sx, ...rest }: PrimaryPillButtonProps) {
   return (
     <Button
       variant="contained"

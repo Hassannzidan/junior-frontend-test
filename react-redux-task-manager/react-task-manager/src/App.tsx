@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import Box from '@mui/material/Box'
 import { useDebounce } from './hooks/useDebounce'
-import { Header } from './components/Header'
-import { ManagerBar } from './components/ManagerBar'
-import { WorkspaceHeader } from './components/WorkspaceHeader'
-import { WorkspaceMain } from './components/WorkspaceMain'
+import { Header } from './components/features/Header'
+import { ManagerBar } from './components/features/ManagerBar'
+import { WorkspaceMain } from './components/features/WorkspaceMain'
+import { WorkspaceHeader } from './components/ui/WorkspaceHeader'
 import {
   addTask,
   deleteTask,
