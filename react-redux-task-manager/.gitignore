@@ -1,5 +1,5 @@
-# Dependencies
-node_modules/
+# Dependencies (nested packages, e.g. react-task-manager/)
+**/node_modules/
 
 # Logs
 logs/
@@ -11,9 +11,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Build output
-dist/
-dist-ssr/
-build/
+**/dist/
+**/dist-ssr/
+**/build/
 
 # Environment
 .env
