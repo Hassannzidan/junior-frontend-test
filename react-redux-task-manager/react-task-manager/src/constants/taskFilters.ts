@@ -22,7 +22,7 @@ export const PRIORITY_FILTER_OPTIONS = [
 
 export type PriorityFilterValue = (typeof PRIORITY_FILTER_OPTIONS)[number]['value']
 
-/** Matches labels/values in `TASK_FORM_STATUS_OPTIONS` (NewTaskDrawer) plus “All”. */
+/** Matches labels/values in `TASK_FORM_STATUS_OPTIONS` (TaskFormDrawer) plus “All”. */
 export const STATUS_FILTER_OPTIONS = [
   { value: 'all', label: 'All status' },
   { value: 'todo', label: 'To do' },

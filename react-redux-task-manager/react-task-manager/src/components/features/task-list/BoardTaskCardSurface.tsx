@@ -3,11 +3,11 @@ import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { IconCalendar, IconFlagFilled, IconTrash } from '@tabler/icons-react'
+import { IconCalendar, IconEdit, IconFlagFilled, IconTrash } from '@tabler/icons-react'
 import type { BoardTaskCardSurfaceProps } from '@/types/components'
 import { priorityFlagColor } from './taskListShared'
 
-export function BoardTaskCardSurface({ task, showActions, onDeleteTask }: BoardTaskCardSurfaceProps) {
+export function BoardTaskCardSurface({ task, showActions, onDeleteTask, onEditTask }: BoardTaskCardSurfaceProps) {
   return (
     <Box
       sx={{
@@ -23,8 +23,17 @@ export function BoardTaskCardSurface({ task, showActions, onDeleteTask }: BoardT
         boxShadow: '0 1px 2px rgba(15, 23, 42, 0.04)',
       }}
     >
-      {showActions && onDeleteTask ? (
+      {showActions && onDeleteTask && onEditTask ? (
         <Box sx={{ position: 'absolute', top: 6, right: 6, display: 'flex', alignItems: 'center', gap: 0, lineHeight: 0 }}>
+          <IconButton
+            size="small"
+            aria-label={`Edit ${task.title}`}
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={() => onEditTask(task)}
+            sx={{ cursor: 'pointer', color: 'text.secondary', '&:hover': { color: 'primary.main', bgcolor: 'action.hover' } }}
+          >
+            <IconEdit size={18} stroke={1.5} aria-hidden />
+          </IconButton>
           <IconButton
             size="small"
             aria-label={`Delete ${task.title}`}
@@ -41,7 +50,7 @@ export function BoardTaskCardSurface({ task, showActions, onDeleteTask }: BoardT
       ) : null}
       <Typography
         variant="subtitle2"
-        sx={{ fontWeight: 700, pr: showActions ? 8 : 0, mb: task.description ? 0.5 : 0, minWidth: 0, overflowWrap: 'anywhere', wordBreak: 'break-word' }}
+        sx={{ fontWeight: 700, pr: showActions ? 10 : 0, mb: task.description ? 0.5 : 0, minWidth: 0, overflowWrap: 'anywhere', wordBreak: 'break-word' }}
       >
         {task.title}
       </Typography>

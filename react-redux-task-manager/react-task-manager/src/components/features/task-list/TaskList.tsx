@@ -10,9 +10,9 @@ import { ListView } from './ListView'
 export function TaskList({
   tasks,
   view,
-  onToggleComplete,
   onDeleteTask,
   onChangeTaskStatus,
+  onEditTask,
   noSearchResults = false,
   searchQuery = '',
 }: TaskListProps) {
@@ -79,6 +79,7 @@ export function TaskList({
         taskById={taskById}
         onDeleteTask={onDeleteTask}
         onChangeTaskStatus={onChangeTaskStatus}
+        onEditTask={onEditTask}
       />
     )
   }
@@ -86,9 +87,9 @@ export function TaskList({
   return (
     <ListView
       byStatus={byStatus}
-      onToggleComplete={onToggleComplete}
       onDeleteTask={onDeleteTask}
       onChangeTaskStatus={onChangeTaskStatus}
+      onEditTask={onEditTask}
     />
   )
 }

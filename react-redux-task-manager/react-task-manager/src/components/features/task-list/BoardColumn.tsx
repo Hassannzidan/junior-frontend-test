@@ -7,7 +7,7 @@ import type { BoardColumnProps } from '@/types/components'
 import { BoardTaskCard } from './BoardTaskCard'
 import { statusBadgeSx } from './taskListShared'
 
-export function BoardColumn({ status, tasks, onDeleteTask }: BoardColumnProps) {
+export function BoardColumn({ status, tasks, onDeleteTask, onEditTask }: BoardColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
     id: status,
     data: { type: 'column', status },
@@ -42,7 +42,7 @@ export function BoardColumn({ status, tasks, onDeleteTask }: BoardColumnProps) {
       </Stack>
       <Stack spacing={1.5} sx={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
         {tasks.map((task) => (
-          <BoardTaskCard key={task.id} task={task} onDeleteTask={onDeleteTask} />
+          <BoardTaskCard key={task.id} task={task} onDeleteTask={onDeleteTask} onEditTask={onEditTask} />
         ))}
       </Stack>
     </Stack>

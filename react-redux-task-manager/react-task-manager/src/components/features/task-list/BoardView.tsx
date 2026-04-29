@@ -8,7 +8,7 @@ import { boardCollisionDetection } from './taskListShared'
 import { BoardColumn } from './BoardColumn'
 import { BoardTaskCardSurface } from './BoardTaskCardSurface'
 
-export function BoardView({ byStatus, taskById, onDeleteTask, onChangeTaskStatus }: BoardViewProps) {
+export function BoardView({ byStatus, taskById, onDeleteTask, onChangeTaskStatus, onEditTask }: BoardViewProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
   const activeTask = activeId ? taskById.get(activeId) : undefined
 
@@ -53,10 +53,16 @@ export function BoardView({ byStatus, taskById, onDeleteTask, onChangeTaskStatus
         }}
       >
         {COLUMN_ORDER.map((status) => (
-          <BoardColumn key={status} status={status} tasks={byStatus[status]} onDeleteTask={onDeleteTask} />
+          <BoardColumn key={status} status={status} tasks={byStatus[status]} onDeleteTask={onDeleteTask} onEditTask={onEditTask} />
         ))}
       </Box>
-      <DragOverlay>{activeTask ? <Box sx={{ cursor: 'grabbing', boxShadow: 6, borderRadius: 2 }}><BoardTaskCardSurface task={activeTask} showActions={false} /></Box> : null}</DragOverlay>
+      <DragOverlay>
+        {activeTask ? (
+          <Box sx={{ cursor: 'grabbing', boxShadow: 6, borderRadius: 2 }}>
+            <BoardTaskCardSurface task={activeTask} showActions={false} />
+          </Box>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   )
 }

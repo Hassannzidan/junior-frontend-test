@@ -6,6 +6,8 @@ import {
   type TaskFormPriorityValue,
   type TaskFormStatusValue,
 } from '../constants/taskFormOptions'
+import type { Task } from '../types/task'
+import { dueDateDisplayToInput } from '../utils/date'
 
 const TASK_STATUS_VALUES = TASK_FORM_STATUS_OPTIONS.map((o) => o.value)
 const TASK_PRIORITY_VALUES = TASK_FORM_PRIORITY_OPTIONS.map((o) => o.value)
@@ -34,6 +36,16 @@ export const newTaskFormEmpty: NewTaskFormState = {
   status: 'todo',
   priority: 'medium',
   dueDate: '',
+}
+
+export function taskToNewTaskFormState(task: Task): NewTaskFormState {
+  return {
+    title: task.title,
+    description: task.description ?? '',
+    status: task.status,
+    priority: task.priority,
+    dueDate: dueDateDisplayToInput(task.dueDate),
+  }
 }
 
 export type NewTaskFormFieldErrors = {

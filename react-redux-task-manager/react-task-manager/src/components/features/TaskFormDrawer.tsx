@@ -15,34 +15,55 @@ import {
   type TaskFormPriorityValue,
   type TaskFormStatusValue,
 } from '@/constants/taskFormOptions'
-import type { NewTaskDrawerProps } from '@/types/components'
+import type { TaskFormDrawerProps } from '@/types/components'
 import { dueDateFromInput } from '@/utils/date'
 import {
   newTaskFormEmpty,
   newTaskFormFieldErrors,
   newTaskFormSchema,
+  taskToNewTaskFormState,
   type NewTaskFormFieldErrors,
   type NewTaskFormState,
 } from '@/validation/newTaskForm'
 
 const { titleMax, descriptionMax } = NEW_TASK_FORM_FIELD_LIMITS
 
-export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) {
+export function TaskFormDrawer({
+  open,
+  initialTask,
+  formResetKey,
+  onClose,
+  onAddTask,
+  onEditTask,
+}: TaskFormDrawerProps) {
+  const isEdit = Boolean(initialTask)
   const [form, setForm] = useState<NewTaskFormState>(newTaskFormEmpty)
   const [fieldErrors, setFieldErrors] = useState<NewTaskFormFieldErrors>({})
+  const [appliedResetKey, setAppliedResetKey] = useState<number | null>(null)
+
+  if (open && appliedResetKey !== formResetKey) {
+    setAppliedResetKey(formResetKey)
+    setForm(initialTask ? taskToNewTaskFormState(initialTask) : newTaskFormEmpty)
+    setFieldErrors({})
+  }
 
   const handleSubmit = () => {
     try {
       const data = newTaskFormSchema.validateSync(form, { abortEarly: false, stripUnknown: true })
       setFieldErrors({})
       const descriptionTrimmed = (data.description ?? '').trim()
-      onAddTask({
+      const payload = {
         title: data.title ?? '',
         description: descriptionTrimmed === '' ? undefined : descriptionTrimmed,
         status: data.status as TaskFormStatusValue,
         priority: data.priority as TaskFormPriorityValue,
         dueDate: dueDateFromInput(data.dueDate ?? ''),
-      })
+      }
+      if (initialTask) {
+        onEditTask(initialTask.id, payload)
+      } else {
+        onAddTask(payload)
+      }
       onClose()
     } catch (err) {
       if (err instanceof yup.ValidationError) {
@@ -61,7 +82,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
         <AppDrawerHeaderRow
           title={
             <Typography component="h2" variant="h6" sx={{ fontWeight: 600 }}>
-              New task
+              {isEdit ? 'Edit task' : 'New task'}
             </Typography>
           }
           actions={
@@ -77,7 +98,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             Cancel
           </Button>
           <PrimaryPillButton type="button" onClick={handleSubmit}>
-            Add task
+            {isEdit ? 'Save changes' : 'Add task'}
           </PrimaryPillButton>
         </Stack>
       }

@@ -1,23 +1,22 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import ButtonBase from '@mui/material/ButtonBase'
-import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { IconCalendar, IconFlagFilled, IconTrash } from '@tabler/icons-react'
+import { IconCalendar, IconEdit, IconFlagFilled, IconTrash } from '@tabler/icons-react'
 import { COLUMN_ORDER, LABELS } from '@/constants/taskList'
 import type { ListTaskRowProps } from '@/types/components'
 import { priorityFlagColor, statusBadgeSx } from './taskListShared'
 
 export function ListTaskRow({
   task,
-  onToggleComplete,
   onDeleteTask,
   onChangeTaskStatus,
+  onEditTask,
 }: ListTaskRowProps) {
   const done = task.status === 'complete'
   const [statusMenuAnchor, setStatusMenuAnchor] = useState<null | HTMLElement>(null)
@@ -26,12 +25,6 @@ export function ListTaskRow({
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, px: 2, py: 1.5, flexWrap: 'wrap' }}>
-      <Checkbox
-        checked={done}
-        onChange={() => onToggleComplete?.(task.id)}
-        slotProps={{ input: { 'aria-label': `Complete ${task.title}` } }}
-        sx={(theme) => ({ p: 0.5, color: theme.palette.grey[400], '&.Mui-checked': { color: theme.palette.primary.main } })}
-      />
       <Typography
         variant="body2"
         sx={{
@@ -94,6 +87,14 @@ export function ListTaskRow({
         </Menu>
       </>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+        <IconButton
+          size="small"
+          aria-label={`Edit ${task.title}`}
+          onClick={() => onEditTask(task)}
+          sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main', bgcolor: 'action.hover' } }}
+        >
+          <IconEdit size={18} stroke={1.5} aria-hidden />
+        </IconButton>
         <IconButton
           size="small"
           aria-label={`Delete ${task.title}`}

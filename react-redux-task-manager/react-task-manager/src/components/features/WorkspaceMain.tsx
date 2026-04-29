@@ -5,9 +5,9 @@ import { TaskList } from './task-list/TaskList'
 export function WorkspaceMain({
   tasks,
   view,
-  onToggleComplete,
   onDeleteTask,
   onChangeTaskStatus,
+  onEditTask,
   noSearchResults = false,
   searchQuery = '',
 }: WorkspaceMainProps) {
@@ -28,9 +28,9 @@ export function WorkspaceMain({
       <TaskList
         tasks={tasks}
         view={view}
-        onToggleComplete={onToggleComplete}
         onDeleteTask={onDeleteTask}
         onChangeTaskStatus={onChangeTaskStatus}
+        onEditTask={onEditTask}
         noSearchResults={noSearchResults}
         searchQuery={searchQuery}
       />

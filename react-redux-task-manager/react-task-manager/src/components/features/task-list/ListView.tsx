@@ -11,7 +11,7 @@ import type { TaskStatus } from '@/types/task'
 import { ListTaskRow } from './ListTaskRow'
 import { statusBadgeSx } from './taskListShared'
 
-export function ListView({ byStatus, onToggleComplete, onDeleteTask, onChangeTaskStatus }: ListViewProps) {
+export function ListView({ byStatus, onDeleteTask, onChangeTaskStatus, onEditTask }: ListViewProps) {
   const [open, setOpen] = useState<Record<TaskStatus, boolean>>({
     todo: true,
     in_progress: true,
@@ -70,9 +70,9 @@ export function ListView({ byStatus, onToggleComplete, onDeleteTask, onChangeTas
                     <ListTaskRow
                       key={task.id}
                       task={task}
-                      onToggleComplete={onToggleComplete}
                       onDeleteTask={onDeleteTask}
                       onChangeTaskStatus={onChangeTaskStatus}
+                      onEditTask={onEditTask}
                     />
                   ))}
                 </Stack>

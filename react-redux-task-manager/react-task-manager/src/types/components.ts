@@ -70,7 +70,7 @@ export type ManagerBarProps = {
   onPriorityChange: (value: PriorityFilterValue) => void
   status: StatusFilterValue
   onStatusChange: (value: StatusFilterValue) => void
-  onAddTask: (task: Omit<Task, 'id'>) => void
+  onNewTaskClick: () => void
 }
 
 export type HeaderProps = {
@@ -81,17 +81,21 @@ export type HeaderProps = {
 export type WorkspaceMainProps = {
   tasks: Task[]
   view: ViewMode
-  onToggleComplete: (taskId: string) => void
   onDeleteTask: (taskId: string) => void
   onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
+  onEditTask: (task: Task) => void
   noSearchResults?: boolean
   searchQuery?: string
 }
 
-export type NewTaskDrawerProps = {
+export type TaskFormDrawerProps = {
   open: boolean
+  initialTask: Task | null
+  /** Bumped on each open so the form resets without remounting the drawer (preserves slide-in animation). */
+  formResetKey: number
   onClose: () => void
   onAddTask: (task: Omit<Task, 'id'>) => void
+  onEditTask: (taskId: string, updates: Omit<Task, 'id'>) => void
 }
 
 /** Tasks grouped by workflow column (board / list views). */
@@ -102,45 +106,49 @@ export type BoardViewProps = {
   taskById: Map<string, Task>
   onDeleteTask: (taskId: string) => void
   onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
+  onEditTask: (task: Task) => void
 }
 
 export type TaskListProps = {
   tasks: Task[]
   view: ViewMode
-  onToggleComplete?: (taskId: string) => void
   onDeleteTask: (taskId: string) => void
   onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
+  onEditTask: (task: Task) => void
   noSearchResults?: boolean
   searchQuery?: string
 }
 
 export type ListViewProps = {
   byStatus: ByStatus
-  onToggleComplete?: (taskId: string) => void
   onDeleteTask: (taskId: string) => void
   onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
+  onEditTask: (task: Task) => void
 }
 
 export type BoardTaskCardProps = {
   task: Task
   onDeleteTask: (taskId: string) => void
+  onEditTask: (task: Task) => void
 }
 
 export type BoardTaskCardSurfaceProps = {
   task: Task
   showActions: boolean
   onDeleteTask?: (taskId: string) => void
+  onEditTask?: (task: Task) => void
 }
 
 export type BoardColumnProps = {
   status: TaskStatus
   tasks: Task[]
   onDeleteTask: (taskId: string) => void
+  onEditTask: (task: Task) => void
 }
 
 export type ListTaskRowProps = {
   task: Task
-  onToggleComplete?: (taskId: string) => void
   onDeleteTask: (taskId: string) => void
   onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
+  onEditTask: (task: Task) => void
 }

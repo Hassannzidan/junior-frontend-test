@@ -2,24 +2,17 @@ import { useCallback } from 'react'
 import {
   addTask,
   deleteTask,
+  editTask,
   setFilterPriority,
   setFilterStatus,
   setSearch,
   setStatus,
-  toggleTask,
 } from '../store/tasksSlice'
 import { useAppDispatch } from '../store'
 import type { Task, TaskStatus } from '../types/task'
 
 export function useTaskActions() {
   const dispatch = useAppDispatch()
-
-  const handleToggleComplete = useCallback(
-    (taskId: string) => {
-      dispatch(toggleTask(taskId))
-    },
-    [dispatch],
-  )
 
   const handleDeleteTask = useCallback(
     (taskId: string) => {
@@ -45,10 +38,26 @@ export function useTaskActions() {
     [dispatch],
   )
 
+  const handleEditTask = useCallback(
+    (taskId: string, updates: Omit<Task, 'id'>) => {
+      dispatch(
+        editTask({
+          id: taskId,
+          title: updates.title,
+          description: updates.description,
+          status: updates.status,
+          priority: updates.priority,
+          dueDate: updates.dueDate,
+        }),
+      )
+    },
+    [dispatch],
+  )
+
   return {
-    handleToggleComplete,
     handleDeleteTask,
     handleChangeTaskStatus,
     handleAddTask,
+    handleEditTask,
   }
 }
