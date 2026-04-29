@@ -8,59 +8,28 @@ import Typography from '@mui/material/Typography'
 import { IconX } from '@tabler/icons-react'
 import * as yup from 'yup'
 import {
+  NEW_TASK_FORM_FIELD_LIMITS,
   TASK_FORM_PRIORITY_OPTIONS,
   TASK_FORM_STATUS_OPTIONS,
   type TaskFormPriorityValue,
   type TaskFormStatusValue,
 } from '../../constants/taskFormOptions'
-import type { Task } from '../../types/task'
+import type { NewTaskDrawerProps } from '../../types/components'
+import { dueDateFromInput } from '../../utils/date'
+import {
+  newTaskFormEmpty,
+  newTaskFormFieldErrors,
+  newTaskFormSchema,
+  type NewTaskFormFieldErrors,
+  type NewTaskFormState,
+} from '../../validation/newTaskForm'
 import { AppDrawer, AppDrawerHeaderRow, FilterSelect, PrimaryPillButton } from '../ui'
 
-const MAX_TITLE_LEN = 300
-const MAX_DESCRIPTION_LEN = 5000
-const TASK_STATUS_VALUES = TASK_FORM_STATUS_OPTIONS.map((o) => o.value)
-const TASK_PRIORITY_VALUES = TASK_FORM_PRIORITY_OPTIONS.map((o) => o.value)
-
-const newTaskFormSchema = yup.object({
-  title: yup.string().trim().min(1, 'Enter a task name').max(MAX_TITLE_LEN, 'Task name is too long'),
-  description: yup.string().trim().max(MAX_DESCRIPTION_LEN, 'Description is too long'),
-  status: yup.string().oneOf(TASK_STATUS_VALUES).required(),
-  priority: yup.string().oneOf(TASK_PRIORITY_VALUES).required(),
-  dueDate: yup.string(),
-})
-
-function dueDateFromInput(isoDate: string): string | undefined {
-  const trimmed = isoDate.trim()
-  if (!trimmed) return undefined
-  const d = new Date(`${trimmed}T12:00:00`)
-  if (Number.isNaN(d.getTime())) return undefined
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-}
-
-type NewTaskDrawerProps = {
-  open: boolean
-  onClose: () => void
-  onAddTask: (task: Omit<Task, 'id'>) => void
-}
-
-const emptyForm = {
-  title: '',
-  description: '',
-  status: 'todo' as TaskFormStatusValue,
-  priority: 'medium' as TaskFormPriorityValue,
-  dueDate: '',
-}
-
-function validationErrorsFromYup(err: yup.ValidationError): { title?: string; description?: string } {
-  const items = err.inner.length ? err.inner : [{ path: err.path, message: err.message }]
-  const title = items.find((e) => e.path === 'title')?.message
-  const description = items.find((e) => e.path === 'description')?.message
-  return { ...(title ? { title } : {}), ...(description ? { description } : {}) }
-}
+const { titleMax, descriptionMax } = NEW_TASK_FORM_FIELD_LIMITS
 
 export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) {
-  const [form, setForm] = useState(emptyForm)
-  const [fieldErrors, setFieldErrors] = useState<{ title?: string; description?: string }>({})
+  const [form, setForm] = useState<NewTaskFormState>(newTaskFormEmpty)
+  const [fieldErrors, setFieldErrors] = useState<NewTaskFormFieldErrors>({})
 
   const handleSubmit = () => {
     try {
@@ -77,7 +46,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
       onClose()
     } catch (err) {
       if (err instanceof yup.ValidationError) {
-        setFieldErrors(validationErrorsFromYup(err))
+        setFieldErrors(newTaskFormFieldErrors(err))
       } else {
         throw err
       }
@@ -130,7 +99,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             error={Boolean(fieldErrors.title)}
             helperText={fieldErrors.title}
             aria-label="Task name"
-            slotProps={{ htmlInput: { 'aria-required': true, maxLength: MAX_TITLE_LEN } }}
+            slotProps={{ htmlInput: { 'aria-required': true, maxLength: titleMax } }}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
         </div>
@@ -152,7 +121,7 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             error={Boolean(fieldErrors.description)}
             helperText={fieldErrors.description}
             aria-label="Task description"
-            slotProps={{ htmlInput: { maxLength: MAX_DESCRIPTION_LEN } }}
+            slotProps={{ htmlInput: { maxLength: descriptionMax } }}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
         </div>

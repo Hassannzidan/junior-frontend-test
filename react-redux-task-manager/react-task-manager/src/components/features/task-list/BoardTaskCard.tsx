@@ -2,13 +2,8 @@ import type { CSSProperties } from 'react'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import Box from '@mui/material/Box'
-import type { Task } from '../../../types/task'
+import type { BoardTaskCardProps } from '../../../types/components'
 import { BoardTaskCardSurface } from './BoardTaskCardSurface'
-
-export type BoardTaskCardProps = {
-  task: Task
-  onDeleteTask: (taskId: string) => void
-}
 
 export function BoardTaskCard({ task, onDeleteTask }: BoardTaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({

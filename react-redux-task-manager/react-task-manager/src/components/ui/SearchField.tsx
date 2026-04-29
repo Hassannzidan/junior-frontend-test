@@ -1,13 +1,7 @@
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { IconSearch } from '@tabler/icons-react'
-
-type SearchFieldProps = {
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
-  'aria-label'?: string
-}
+import type { SearchFieldProps } from '../../types/components'
 
 export function SearchField({
   value,

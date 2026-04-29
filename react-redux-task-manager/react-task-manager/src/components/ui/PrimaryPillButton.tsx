@@ -1,10 +1,6 @@
-import type { ReactNode } from 'react'
-import Button, { type ButtonProps } from '@mui/material/Button'
+import Button from '@mui/material/Button'
 import { IconPlus } from '@tabler/icons-react'
-
-export type PrimaryPillButtonProps = Omit<ButtonProps, 'variant' | 'color'> & {
-  children: ReactNode
-}
+import type { PrimaryPillButtonProps } from '../../types/components'
 
 export function PrimaryPillButton({ children, startIcon, sx, ...rest }: PrimaryPillButtonProps) {
   return (

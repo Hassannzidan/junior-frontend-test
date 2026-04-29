@@ -9,15 +9,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { IconCalendar, IconFlagFilled, IconTrash } from '@tabler/icons-react'
-import type { Task, TaskStatus } from '../../../types/task'
+import type { ListTaskRowProps } from '../../../types/components'
 import { COLUMN_ORDER, LABELS, priorityFlagColor, statusBadgeSx } from './taskListShared'
-
-export type ListTaskRowProps = {
-  task: Task
-  onToggleComplete?: (taskId: string) => void
-  onDeleteTask: (taskId: string) => void
-  onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
-}
 
 export function ListTaskRow({
   task,

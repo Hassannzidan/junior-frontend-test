@@ -1,17 +1,6 @@
 import Box from '@mui/material/Box'
-import type { Task, TaskStatus } from '../../types/task'
-import type { ViewMode } from '../../types/viewMode'
+import type { WorkspaceMainProps } from '../../types/components'
 import { TaskList } from './task-list/TaskList'
-
-export type WorkspaceMainProps = {
-  tasks: Task[]
-  view: ViewMode
-  onToggleComplete: (taskId: string) => void
-  onDeleteTask: (taskId: string) => void
-  onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
-  noSearchResults?: boolean
-  searchQuery?: string
-}
 
 export function WorkspaceMain({
   tasks,

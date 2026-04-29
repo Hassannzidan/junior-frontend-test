@@ -1,7 +1,7 @@
 import { createSlice, nanoid, type PayloadAction } from '@reduxjs/toolkit'
 import type { PriorityFilterValue, StatusFilterValue } from '../constants/taskFilters'
 import type { Task, TaskStatus } from '../types/task'
-import type { ViewMode } from '../types/viewMode'
+import type { ViewMode } from '../types/components'
 
 export interface TasksState {
   items: Task[]

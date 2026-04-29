@@ -1,5 +1,11 @@
 import { PRIORITY_FLAG_COLORS } from './taskFilters'
 
+/** Max lengths for the new-task drawer fields (must stay in sync with Yup validation). */
+export const NEW_TASK_FORM_FIELD_LIMITS = {
+  titleMax: 300,
+  descriptionMax: 5000,
+} as const
+
 export const TASK_FORM_STATUS_OPTIONS = [
   { value: 'todo', label: 'To do' },
   { value: 'in_progress', label: 'In progress' },

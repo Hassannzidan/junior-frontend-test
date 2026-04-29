@@ -1,12 +1,8 @@
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import type { HeaderProps } from '../../types/components'
 import { Logo } from '../ui'
-
-export type HeaderProps = {
-  totalTasks: number
-  completedTasks: number
-}
 
 export function Header({ totalTasks, completedTasks }: HeaderProps) {
   const openTasks = Math.max(0, totalTasks - completedTasks)

@@ -4,21 +4,7 @@ import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { type SelectChangeEvent } from '@mui/material/Select'
 import { IconChevronDown, IconFlagFilled } from '@tabler/icons-react'
-
-export type FilterOption<T extends string = string> = {
-  value: T
-  label: string
-  flagColor?: string
-}
-
-export type FilterValueUnion<Options extends readonly FilterOption<string>[]> = Options[number]['value']
-
-export type FilterSelectProps<Options extends readonly FilterOption<string>[] = readonly FilterOption[]> = {
-  value: FilterValueUnion<Options>
-  onChange: (value: FilterValueUnion<Options>) => void
-  options: Options
-  ariaLabel: string
-}
+import type { FilterOption, FilterSelectProps, FilterValueUnion } from '../../types/components'
 
 const pillSelect = {
   surface: '#F8F8FB',

@@ -1,16 +1,6 @@
-import type { ReactNode } from 'react'
 import Box from '@mui/material/Box'
-import Drawer, { type DrawerProps } from '@mui/material/Drawer'
-
-export type AppDrawerProps = {
-  open: boolean
-  onClose: DrawerProps['onClose']
-  header: ReactNode
-  children: ReactNode
-  footer: ReactNode
-  anchor?: DrawerProps['anchor']
-  width?: { xs?: number | string; sm?: number | string }
-}
+import Drawer from '@mui/material/Drawer'
+import type { AppDrawerProps } from '../../types/components'
 
 export function AppDrawer({
   open,

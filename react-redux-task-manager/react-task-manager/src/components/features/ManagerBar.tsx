@@ -1,33 +1,15 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import {
-  PRIORITY_FILTER_OPTIONS,
-  STATUS_FILTER_OPTIONS,
-  type PriorityFilterValue,
-  type StatusFilterValue,
-} from '../../constants/taskFilters'
-import type { Task } from '../../types/task'
+import { PRIORITY_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from '../../constants/taskFilters'
+import type { ManagerBarProps } from '../../types/components'
 import {
   FilterSelect,
   PrimaryPillButton,
   SearchField,
   ViewModeToggle,
-  type ViewMode,
 } from '../ui'
 import { NewTaskDrawer } from './NewTaskDrawer'
-
-export type ManagerBarProps = {
-  view: ViewMode
-  onViewChange: (mode: ViewMode) => void
-  search: string
-  onSearchChange: (value: string) => void
-  priority: PriorityFilterValue
-  onPriorityChange: (value: PriorityFilterValue) => void
-  status: StatusFilterValue
-  onStatusChange: (value: StatusFilterValue) => void
-  onAddTask: (task: Omit<Task, 'id'>) => void
-}
 
 export function ManagerBar({
   view,

@@ -1,16 +1,11 @@
 import { useState } from 'react'
 import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors, type DragEndEvent, type DragStartEvent } from '@dnd-kit/core'
 import Box from '@mui/material/Box'
-import type { ByStatus } from './taskListShared'
+import type { BoardViewProps } from '../../../types/components'
+import type { TaskStatus } from '../../../types/task'
 import { boardCollisionDetection, COLUMN_ORDER, findTaskById } from './taskListShared'
 import { BoardColumn } from './BoardColumn'
 import { BoardTaskCardSurface } from './BoardTaskCardSurface'
-
-export type BoardViewProps = {
-  byStatus: ByStatus
-  onDeleteTask: (taskId: string) => void
-  onChangeTaskStatus: (taskId: string, status: 'todo' | 'in_progress' | 'complete') => void
-}
 
 export function BoardView({ byStatus, onDeleteTask, onChangeTaskStatus }: BoardViewProps) {
   const [activeId, setActiveId] = useState<string | null>(null)
@@ -32,8 +27,8 @@ export function BoardView({ byStatus, onDeleteTask, onChangeTaskStatus }: BoardV
     if (!over) return
     const taskId = String(active.id)
     const overId = String(over.id)
-    if (!COLUMN_ORDER.includes(overId as 'todo' | 'in_progress' | 'complete')) return
-    const nextStatus = overId as 'todo' | 'in_progress' | 'complete'
+    if (!COLUMN_ORDER.includes(overId as TaskStatus)) return
+    const nextStatus = overId as TaskStatus
     const task = findTaskById(byStatus, taskId)
     if (task && task.status !== nextStatus) {
       onChangeTaskStatus(taskId, nextStatus)

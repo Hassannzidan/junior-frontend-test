@@ -5,17 +5,10 @@ import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { IconChevronDown, IconChevronRight } from '@tabler/icons-react'
+import type { ListViewProps } from '../../../types/components'
 import type { TaskStatus } from '../../../types/task'
 import { ListTaskRow } from './ListTaskRow'
-import type { ByStatus } from './taskListShared'
 import { COLUMN_ORDER, LABELS, statusBadgeSx } from './taskListShared'
-
-export type ListViewProps = {
-  byStatus: ByStatus
-  onToggleComplete?: (taskId: string) => void
-  onDeleteTask: (taskId: string) => void
-  onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
-}
 
 export function ListView({ byStatus, onToggleComplete, onDeleteTask, onChangeTaskStatus }: ListViewProps) {
   const [open, setOpen] = useState<Record<TaskStatus, boolean>>({

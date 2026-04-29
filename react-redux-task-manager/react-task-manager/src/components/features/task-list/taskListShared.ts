@@ -1,5 +1,6 @@
 import { closestCorners, pointerWithin, type CollisionDetection } from '@dnd-kit/core'
 import { PRIORITY_FLAG_COLORS } from '../../../constants/taskFilters'
+import type { ByStatus } from '../../../types/components'
 import type { Task, TaskStatus } from '../../../types/task'
 
 export const COLUMN_ORDER: TaskStatus[] = ['todo', 'in_progress', 'complete']
@@ -15,8 +16,6 @@ const STATUS_BADGE_BG: Record<TaskStatus, string> = {
   in_progress: '#4086F4',
   complete: '#28C76F',
 }
-
-export type ByStatus = Record<TaskStatus, Task[]>
 
 export function statusBadgeSx(status: TaskStatus) {
   return {

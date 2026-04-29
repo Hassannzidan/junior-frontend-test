@@ -1,9 +1,5 @@
-import type { ReactNode } from 'react'
 import Box from '@mui/material/Box'
-
-type WorkspaceHeaderProps = {
-  children: ReactNode
-}
+import type { WorkspaceHeaderProps } from '../../types/components'
 
 export function WorkspaceHeader({ children }: WorkspaceHeaderProps) {
   return (

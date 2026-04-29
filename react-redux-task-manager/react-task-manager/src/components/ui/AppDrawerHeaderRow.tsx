@@ -1,11 +1,6 @@
-import type { ReactNode } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-
-export type AppDrawerHeaderRowProps = {
-  title: ReactNode
-  actions?: ReactNode
-}
+import type { AppDrawerHeaderRowProps } from '../../types/components'
 
 export function AppDrawerHeaderRow({ title, actions }: AppDrawerHeaderRowProps) {
   return (
