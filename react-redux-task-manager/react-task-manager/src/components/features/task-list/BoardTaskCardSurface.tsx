@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { IconCalendar, IconFlagFilled, IconTrash } from '@tabler/icons-react'
-import type { BoardTaskCardSurfaceProps } from '../../../types/components'
+import type { BoardTaskCardSurfaceProps } from '@/types/components'
 import { priorityFlagColor } from './taskListShared'
 
 export function BoardTaskCardSurface({ task, showActions, onDeleteTask }: BoardTaskCardSurfaceProps) {

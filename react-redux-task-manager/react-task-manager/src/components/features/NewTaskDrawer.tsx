@@ -7,23 +7,23 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { IconX } from '@tabler/icons-react'
 import * as yup from 'yup'
+import { AppDrawer, AppDrawerHeaderRow, FilterSelect, PrimaryPillButton } from '@/components/ui'
 import {
   NEW_TASK_FORM_FIELD_LIMITS,
   TASK_FORM_PRIORITY_OPTIONS,
   TASK_FORM_STATUS_OPTIONS,
   type TaskFormPriorityValue,
   type TaskFormStatusValue,
-} from '../../constants/taskFormOptions'
-import type { NewTaskDrawerProps } from '../../types/components'
-import { dueDateFromInput } from '../../utils/date'
+} from '@/constants/taskFormOptions'
+import type { NewTaskDrawerProps } from '@/types/components'
+import { dueDateFromInput } from '@/utils/date'
 import {
   newTaskFormEmpty,
   newTaskFormFieldErrors,
   newTaskFormSchema,
   type NewTaskFormFieldErrors,
   type NewTaskFormState,
-} from '../../validation/newTaskForm'
-import { AppDrawer, AppDrawerHeaderRow, FilterSelect, PrimaryPillButton } from '../ui'
+} from '@/validation/newTaskForm'
 
 const { titleMax, descriptionMax } = NEW_TASK_FORM_FIELD_LIMITS
 

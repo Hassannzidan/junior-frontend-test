@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import type { WorkspaceMainProps } from '../../types/components'
+import type { WorkspaceMainProps } from '@/types/components'
 import { TaskList } from './task-list/TaskList'
 
 export function WorkspaceMain({

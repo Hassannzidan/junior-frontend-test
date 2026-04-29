@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 import { IconPlus } from '@tabler/icons-react'
-import type { PrimaryPillButtonProps } from '../../types/components'
+import type { PrimaryPillButtonProps } from '@/types/components'
 
 export function PrimaryPillButton({ children, startIcon, sx, ...rest }: PrimaryPillButtonProps) {
   return (

@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box'
-import type { WorkspaceHeaderProps } from '../../types/components'
+import type { WorkspaceHeaderProps } from '@/types/components'
 
 export function WorkspaceHeader({ children }: WorkspaceHeaderProps) {
   return (

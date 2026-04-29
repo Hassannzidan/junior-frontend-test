@@ -1,21 +1,7 @@
 import { closestCorners, pointerWithin, type CollisionDetection } from '@dnd-kit/core'
-import { PRIORITY_FLAG_COLORS } from '../../../constants/taskFilters'
-import type { ByStatus } from '../../../types/components'
-import type { Task, TaskStatus } from '../../../types/task'
-
-export const COLUMN_ORDER: TaskStatus[] = ['todo', 'in_progress', 'complete']
-
-export const LABELS: Record<TaskStatus, string> = {
-  todo: 'TO DO',
-  in_progress: 'IN PROGRESS',
-  complete: 'COMPLETE',
-}
-
-const STATUS_BADGE_BG: Record<TaskStatus, string> = {
-  todo: '#5F6375',
-  in_progress: '#4086F4',
-  complete: '#28C76F',
-}
+import { PRIORITY_FLAG_COLORS } from '@/constants/taskFilters'
+import { STATUS_BADGE_BG } from '@/constants/taskList'
+import type { Task, TaskStatus } from '@/types/task'
 
 export function statusBadgeSx(status: TaskStatus) {
   return {
@@ -41,12 +27,4 @@ export const boardCollisionDetection: CollisionDetection = (args) => {
     return pointerHits
   }
   return closestCorners(args)
-}
-
-export function findTaskById(byStatus: ByStatus, id: string): Task | undefined {
-  for (const status of COLUMN_ORDER) {
-    const hit = byStatus[status].find((t) => t.id === id)
-    if (hit) return hit
-  }
-  return undefined
 }

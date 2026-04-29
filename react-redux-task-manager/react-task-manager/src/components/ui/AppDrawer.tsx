@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
-import type { AppDrawerProps } from '../../types/components'
+import type { AppDrawerProps } from '@/types/components'
 
 export function AppDrawer({
   open,

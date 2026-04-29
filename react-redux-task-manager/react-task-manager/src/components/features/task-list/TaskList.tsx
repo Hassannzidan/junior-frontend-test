@@ -2,7 +2,8 @@ import { useMemo } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { IconSearch } from '@tabler/icons-react'
-import type { ByStatus, TaskListProps } from '../../../types/components'
+import type { ByStatus, TaskListProps } from '@/types/components'
+import type { Task } from '@/types/task'
 import { BoardView } from './BoardView'
 import { ListView } from './ListView'
 
@@ -15,10 +16,14 @@ export function TaskList({
   noSearchResults = false,
   searchQuery = '',
 }: TaskListProps) {
-  const byStatus = useMemo<ByStatus>(() => {
-    const map: ByStatus = { todo: [], in_progress: [], complete: [] }
-    for (const t of tasks) map[t.status].push(t)
-    return map
+  const { byStatus, taskById } = useMemo(() => {
+    const byStatus: ByStatus = { todo: [], in_progress: [], complete: [] }
+    const taskById = new Map<string, Task>()
+    for (const t of tasks) {
+      byStatus[t.status].push(t)
+      taskById.set(t.id, t)
+    }
+    return { byStatus, taskById }
   }, [tasks])
 
   if (noSearchResults) {
@@ -68,7 +73,14 @@ export function TaskList({
   }
 
   if (view === 'board') {
-    return <BoardView byStatus={byStatus} onDeleteTask={onDeleteTask} onChangeTaskStatus={onChangeTaskStatus} />
+    return (
+      <BoardView
+        byStatus={byStatus}
+        taskById={taskById}
+        onDeleteTask={onDeleteTask}
+        onChangeTaskStatus={onChangeTaskStatus}
+      />
+    )
   }
 
   return (

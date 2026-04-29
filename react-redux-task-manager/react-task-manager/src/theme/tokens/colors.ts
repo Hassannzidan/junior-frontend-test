@@ -1,3 +1,5 @@
+import type { TaskStatus } from '@/types/task'
+
 /** Brand and neutral ramps consumed by `createAppTheme`. */
 export const brand = {
   purple: '#7B68EE',
@@ -21,3 +23,9 @@ export const neutral = {
   800: '#2B2D31',
   900: '#1E2024',
 } as const
+
+export const taskStatusBadgeBg = {
+  todo: '#5F6375',
+  in_progress: '#4086F4',
+  complete: '#28C76F',
+} as const satisfies Record<TaskStatus, string>

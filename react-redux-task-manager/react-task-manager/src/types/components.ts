@@ -99,6 +99,7 @@ export type ByStatus = Record<TaskStatus, Task[]>
 
 export type BoardViewProps = {
   byStatus: ByStatus
+  taskById: Map<string, Task>
   onDeleteTask: (taskId: string) => void
   onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
 }

@@ -1,7 +1,7 @@
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { IconSearch } from '@tabler/icons-react'
-import type { SearchFieldProps } from '../../types/components'
+import type { SearchFieldProps } from '@/types/components'
 
 export function SearchField({
   value,

@@ -4,7 +4,7 @@ import FormControl from '@mui/material/FormControl'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { type SelectChangeEvent } from '@mui/material/Select'
 import { IconChevronDown, IconFlagFilled } from '@tabler/icons-react'
-import type { FilterOption, FilterSelectProps, FilterValueUnion } from '../../types/components'
+import type { FilterOption, FilterSelectProps, FilterValueUnion } from '@/types/components'
 
 const pillSelect = {
   surface: '#F8F8FB',

@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import { PRIORITY_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from '../../constants/taskFilters'
-import type { ManagerBarProps } from '../../types/components'
 import {
   FilterSelect,
   PrimaryPillButton,
   SearchField,
   ViewModeToggle,
-} from '../ui'
+} from '@/components/ui'
+import { PRIORITY_FILTER_OPTIONS, STATUS_FILTER_OPTIONS } from '@/constants/taskFilters'
+import type { ManagerBarProps } from '@/types/components'
 import { NewTaskDrawer } from './NewTaskDrawer'
 
 export function ManagerBar({

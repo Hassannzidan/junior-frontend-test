@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import { useDraggable } from '@dnd-kit/core'
 import { CSS } from '@dnd-kit/utilities'
 import Box from '@mui/material/Box'
-import type { BoardTaskCardProps } from '../../../types/components'
+import type { BoardTaskCardProps } from '@/types/components'
 import { BoardTaskCardSurface } from './BoardTaskCardSurface'
 
 export function BoardTaskCard({ task, onDeleteTask }: BoardTaskCardProps) {

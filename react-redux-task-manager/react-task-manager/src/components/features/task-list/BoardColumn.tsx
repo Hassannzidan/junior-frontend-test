@@ -2,9 +2,10 @@ import { useDroppable } from '@dnd-kit/core'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import type { BoardColumnProps } from '../../../types/components'
+import { LABELS } from '@/constants/taskList'
+import type { BoardColumnProps } from '@/types/components'
 import { BoardTaskCard } from './BoardTaskCard'
-import { LABELS, statusBadgeSx } from './taskListShared'
+import { statusBadgeSx } from './taskListShared'
 
 export function BoardColumn({ status, tasks, onDeleteTask }: BoardColumnProps) {
   const { setNodeRef, isOver } = useDroppable({

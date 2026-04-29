@@ -3,7 +3,7 @@ import ButtonBase from '@mui/material/ButtonBase'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { IconLayoutGrid, IconList } from '@tabler/icons-react'
-import type { ViewMode, ViewModeToggleProps } from '../../types/components'
+import type { ViewMode, ViewModeToggleProps } from '@/types/components'
 
 const track = { bg: 'transparent', border: 'rgba(74, 74, 226, 0.18)' } as const
 const segment = { activeColor: '#4A4AE2', activeBg: '#F5F3FF', inactiveColor: '#5F6368' } as const

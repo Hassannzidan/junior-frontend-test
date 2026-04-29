@@ -9,8 +9,9 @@ import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { IconCalendar, IconFlagFilled, IconTrash } from '@tabler/icons-react'
-import type { ListTaskRowProps } from '../../../types/components'
-import { COLUMN_ORDER, LABELS, priorityFlagColor, statusBadgeSx } from './taskListShared'
+import { COLUMN_ORDER, LABELS } from '@/constants/taskList'
+import type { ListTaskRowProps } from '@/types/components'
+import { priorityFlagColor, statusBadgeSx } from './taskListShared'
 
 export function ListTaskRow({
   task,

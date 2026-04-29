@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import type { AppDrawerHeaderRowProps } from '../../types/components'
+import type { AppDrawerHeaderRowProps } from '@/types/components'
 
 export function AppDrawerHeaderRow({ title, actions }: AppDrawerHeaderRowProps) {
   return (

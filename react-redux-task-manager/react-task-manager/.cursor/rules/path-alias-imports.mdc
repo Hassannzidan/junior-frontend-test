@@ -1,0 +1,33 @@
+---
+description: Use @ path alias for imports from src (avoid deep ../ chains)
+globs: "**/react-task-manager/src/components/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Path alias imports (`@/`)
+
+This project maps `@/*` to `src/*` (see `tsconfig.app.json` `paths` and `vite.config.ts` `resolve.alias`).
+
+## Rules for `src/components`
+
+- Prefer **`@/`** for anything under **`src/`** that would otherwise need **`../`** beyond the immediate folder (e.g. `@/types/...`, `@/constants/...`, `@/utils/...`, `@/theme/...`, `@/validation/...`).
+- Use **`@/components/ui`** (or `@/components/...`) when importing another component area instead of long relative paths like `../../../`.
+- Keep **same-folder** imports **relative** with `./` (e.g. `./BoardColumn`, `./taskListShared`).
+- **Do not** use `@/` for `node_modules` imports.
+
+## Examples
+
+```ts
+// Good
+import type { TaskListProps } from '@/types/components'
+import { filterTasks } from '@/utils/filterTasks'
+import { Logo } from '@/components/ui'
+
+// Good (sibling / local)
+import { BoardColumn } from './BoardColumn'
+
+// Avoid in components
+import type { X } from '../../../types/components'
+```
+
+When adding new files under `src/components`, follow the same pattern.

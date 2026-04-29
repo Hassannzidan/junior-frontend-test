@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
-import { fontFamily } from '../../theme/tokens/fonts'
-import type { LogoProps } from '../../types/components'
+import { fontFamily } from '@/theme/tokens/fonts'
+import type { LogoProps } from '@/types/components'
 
 export function Logo({ sx }: LogoProps) {
   return (
