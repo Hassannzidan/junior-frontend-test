@@ -1,12 +1,15 @@
 import { forwardRef } from 'react'
 import FormControl from '@mui/material/FormControl'
+import Box from '@mui/material/Box'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { type SelectChangeEvent } from '@mui/material/Select'
-import { IconChevronDown } from '@tabler/icons-react'
+import { IconChevronDown, IconFlagFilled } from '@tabler/icons-react'
 
 export type FilterOption<T extends string = string> = {
   value: T
   label: string
+  /** When set, a colored flag icon is shown in the menu and in the closed select. */
+  flagColor?: string
 }
 
 /** Union of `value` fields from a readonly options array. */
@@ -57,6 +60,31 @@ export function FilterSelect<
     onChange(event.target.value as V)
   }
 
+  const renderOptionContent = (opt: (typeof options)[number]) => {
+    if (!opt.flagColor) {
+      return opt.label
+    }
+    return (
+      <Box
+        component="span"
+        sx={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 1,
+          width: '100%',
+        }}
+      >
+        <IconFlagFilled
+          size={18}
+          stroke={1.25}
+          aria-hidden
+          style={{ color: opt.flagColor, flexShrink: 0 }}
+        />
+        <span>{opt.label}</span>
+      </Box>
+    )
+  }
+
   return (
     <FormControl
       sx={{
@@ -76,6 +104,11 @@ export function FilterSelect<
         displayEmpty
         inputProps={{ 'aria-label': ariaLabel }}
         IconComponent={Chevron}
+        renderValue={(selected) => {
+          const opt = options.find((o) => o.value === selected)
+          if (!opt) return ''
+          return renderOptionContent(opt)
+        }}
         sx={{
           fontFamily: 'inherit',
           bgcolor: pillSelect.surface,
@@ -134,15 +167,18 @@ export function FilterSelect<
           <MenuItem
             key={opt.value}
             value={opt.value}
-            sx={{
+            sx={(theme) => ({
               py: 1,
               px: 2,
-              fontSize: pillSelect.fontSize,
+              fontSize: theme.typography.body2.fontSize,
+              fontWeight: theme.typography.fontWeightRegular,
+              lineHeight: theme.typography.body2.lineHeight,
+              letterSpacing: theme.typography.body2.letterSpacing,
               color: pillSelect.text,
-              fontFamily: 'inherit',
-            }}
+              fontFamily: theme.typography.fontFamily,
+            })}
           >
-            {opt.label}
+            {renderOptionContent(opt)}
           </MenuItem>
         ))}
       </Select>
