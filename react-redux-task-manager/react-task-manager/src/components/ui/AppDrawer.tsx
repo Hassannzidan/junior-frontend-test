@@ -41,6 +41,8 @@ export function AppDrawer({
             display: 'flex',
             flexDirection: 'column',
             boxSizing: 'border-box',
+            overflowX: 'hidden',
+            overflowY: 'hidden',
             borderRadius: t.spacing(1.5),
             mr: { xs: 1.5, sm: 2 },
             mt: { xs: 1.5, sm: 2 },
@@ -56,10 +58,12 @@ export function AppDrawer({
         component="header"
         sx={{
           flexShrink: 0,
+          minWidth: 0,
           px: 2.5,
           py: 2,
           borderBottom: 1,
           borderColor: 'divider',
+          overflowX: 'hidden',
         }}
       >
         {header}
@@ -69,7 +73,9 @@ export function AppDrawer({
         sx={{
           flex: 1,
           minHeight: 0,
-          overflow: 'auto',
+          minWidth: 0,
+          overflowY: 'auto',
+          overflowX: 'hidden',
           px: 2.5,
           py: 2,
         }}
@@ -80,11 +86,13 @@ export function AppDrawer({
         component="footer"
         sx={{
           flexShrink: 0,
+          minWidth: 0,
           px: 2.5,
           py: 2,
           borderTop: 1,
           borderColor: 'divider',
           bgcolor: 'background.default',
+          overflowX: 'hidden',
         }}
       >
         {footer}
