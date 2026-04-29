@@ -1,15 +1,27 @@
 import Box from '@mui/material/Box'
 import { TaskList } from './TaskList'
-import type { Task } from '../types/task'
+import type { Task, TaskStatus } from '../types/task'
 import type { ViewMode } from './ViewModeToggle'
 
 export type WorkspaceMainProps = {
   tasks: Task[]
   view: ViewMode
   onToggleComplete: (taskId: string) => void
+  onDeleteTask: (taskId: string) => void
+  onChangeTaskStatus: (taskId: string, status: TaskStatus) => void
+  noSearchResults?: boolean
+  searchQuery?: string
 }
 
-export function WorkspaceMain({ tasks, view, onToggleComplete }: WorkspaceMainProps) {
+export function WorkspaceMain({
+  tasks,
+  view,
+  onToggleComplete,
+  onDeleteTask,
+  onChangeTaskStatus,
+  noSearchResults = false,
+  searchQuery = '',
+}: WorkspaceMainProps) {
   return (
     <Box
       component="main"
@@ -24,7 +36,15 @@ export function WorkspaceMain({ tasks, view, onToggleComplete }: WorkspaceMainPr
         minHeight: 0,
       }}
     >
-      <TaskList tasks={tasks} view={view} onToggleComplete={onToggleComplete} />
+      <TaskList
+        tasks={tasks}
+        view={view}
+        onToggleComplete={onToggleComplete}
+        onDeleteTask={onDeleteTask}
+        onChangeTaskStatus={onChangeTaskStatus}
+        noSearchResults={noSearchResults}
+        searchQuery={searchQuery}
+      />
     </Box>
   )
 }

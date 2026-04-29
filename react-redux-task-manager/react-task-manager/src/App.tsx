@@ -1,33 +1,43 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import Box from '@mui/material/Box'
-import { DEMO_TASKS } from './constants/demoTasks'
-import type { PriorityFilterValue, StatusFilterValue } from './constants/taskFilters'
+import { useDebounce } from './hooks/useDebounce'
 import { Header } from './components/Header'
 import { ManagerBar } from './components/ManagerBar'
 import { WorkspaceHeader } from './components/WorkspaceHeader'
 import { WorkspaceMain } from './components/WorkspaceMain'
-import type { Task } from './types/task'
-import type { ViewMode } from './components/ViewModeToggle'
+import {
+  addTask,
+  deleteTask,
+  setFilterPriority,
+  setFilterStatus,
+  setLayout,
+  setSearch,
+  setStatus,
+  toggleTask,
+} from './store/tasksSlice'
+import { useAppDispatch, useAppSelector } from './store'
 import { filterTasks } from './utils/filterTasks'
-
-function toggleTaskComplete(task: Task): Task {
-  if (task.status === 'complete') {
-    return { ...task, status: 'todo' }
-  }
-  return { ...task, status: 'complete' }
-}
+import type { Task, TaskStatus } from './types/task'
 
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>(DEMO_TASKS)
-  const [view, setView] = useState<ViewMode>('list')
-  const [search, setSearch] = useState('')
-  const [priority, setPriority] = useState<PriorityFilterValue>('all')
-  const [status, setStatus] = useState<StatusFilterValue>('all')
+  const dispatch = useAppDispatch()
+  const tasks = useAppSelector((s) => s.tasks.items)
+  const view = useAppSelector((s) => s.tasks.layout)
+  const search = useAppSelector((s) => s.tasks.search)
+  const priority = useAppSelector((s) => s.tasks.filterPriority)
+  const status = useAppSelector((s) => s.tasks.filterStatus)
+
+  const debouncedSearch = useDebounce(search, 300)
 
   const filteredTasks = useMemo(
-    () => filterTasks(tasks, search, priority, status),
-    [tasks, search, priority, status],
+    () => filterTasks(tasks, debouncedSearch, priority, status),
+    [tasks, debouncedSearch, priority, status],
   )
+
+  const noSearchResults =
+    tasks.length > 0 &&
+    filteredTasks.length === 0 &&
+    debouncedSearch.trim() !== ''
 
   const completedTasks = useMemo(
     () => tasks.filter((t) => t.status === 'complete').length,
@@ -35,17 +45,22 @@ export default function App() {
   )
 
   const handleToggleComplete = (taskId: string) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === taskId ? toggleTaskComplete(t) : t)),
-    )
+    dispatch(toggleTask(taskId))
+  }
+
+  const handleDeleteTask = (taskId: string) => {
+    dispatch(deleteTask(taskId))
+  }
+
+  const handleChangeTaskStatus = (taskId: string, nextStatus: TaskStatus) => {
+    dispatch(setStatus({ id: taskId, status: nextStatus }))
   }
 
   const handleAddTask = (task: Omit<Task, 'id'>) => {
-    const id =
-      typeof crypto !== 'undefined' && 'randomUUID' in crypto
-        ? crypto.randomUUID()
-        : `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-    setTasks((prev) => [...prev, { ...task, id }])
+    dispatch(addTask(task))
+    dispatch(setSearch(''))
+    dispatch(setFilterPriority('all'))
+    dispatch(setFilterStatus('all'))
   }
 
   return (
@@ -61,13 +76,13 @@ export default function App() {
         <Header totalTasks={tasks.length} completedTasks={completedTasks} />
         <ManagerBar
           view={view}
-          onViewChange={setView}
+          onViewChange={(mode) => dispatch(setLayout(mode))}
           search={search}
-          onSearchChange={setSearch}
+          onSearchChange={(value) => dispatch(setSearch(value))}
           priority={priority}
-          onPriorityChange={setPriority}
+          onPriorityChange={(value) => dispatch(setFilterPriority(value))}
           status={status}
-          onStatusChange={setStatus}
+          onStatusChange={(value) => dispatch(setFilterStatus(value))}
           onAddTask={handleAddTask}
         />
       </WorkspaceHeader>
@@ -75,6 +90,10 @@ export default function App() {
         tasks={filteredTasks}
         view={view}
         onToggleComplete={handleToggleComplete}
+        onDeleteTask={handleDeleteTask}
+        onChangeTaskStatus={handleChangeTaskStatus}
+        noSearchResults={noSearchResults}
+        searchQuery={debouncedSearch.trim()}
       />
     </Box>
   )

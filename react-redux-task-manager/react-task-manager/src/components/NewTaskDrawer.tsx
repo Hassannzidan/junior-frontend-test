@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { IconX } from '@tabler/icons-react'
+import * as yup from 'yup'
 import {
   TASK_FORM_PRIORITY_OPTIONS,
   TASK_FORM_STATUS_OPTIONS,
@@ -17,9 +18,25 @@ import { AppDrawer, AppDrawerHeaderRow } from './AppDrawer'
 import { FilterSelect } from './FilterSelect'
 import { PrimaryPillButton } from './PrimaryPillButton'
 
+const MAX_TITLE_LEN = 300
+const MAX_DESCRIPTION_LEN = 5000
+
+const TASK_STATUS_VALUES = TASK_FORM_STATUS_OPTIONS.map((o) => o.value)
+const TASK_PRIORITY_VALUES = TASK_FORM_PRIORITY_OPTIONS.map((o) => o.value)
+
+/** Trim, length caps, and enum checks before creating a task */
+const newTaskFormSchema = yup.object({
+  title: yup.string().trim().min(1, 'Enter a task name').max(MAX_TITLE_LEN, 'Task name is too long'),
+  description: yup.string().trim().max(MAX_DESCRIPTION_LEN, 'Description is too long'),
+  status: yup.string().oneOf(TASK_STATUS_VALUES).required(),
+  priority: yup.string().oneOf(TASK_PRIORITY_VALUES).required(),
+  dueDate: yup.string(),
+})
+
 function dueDateFromInput(isoDate: string): string | undefined {
-  if (!isoDate.trim()) return undefined
-  const d = new Date(`${isoDate}T12:00:00`)
+  const trimmed = isoDate.trim()
+  if (!trimmed) return undefined
+  const d = new Date(`${trimmed}T12:00:00`)
   if (Number.isNaN(d.getTime())) return undefined
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
@@ -38,32 +55,47 @@ const emptyForm = {
   dueDate: '',
 }
 
+function validationErrorsFromYup(err: yup.ValidationError): { title?: string; description?: string } {
+  const items = err.inner.length ? err.inner : [{ path: err.path, message: err.message }]
+  const title = items.find((e) => e.path === 'title')?.message
+  const description = items.find((e) => e.path === 'description')?.message
+  return {
+    ...(title ? { title } : {}),
+    ...(description ? { description } : {}),
+  }
+}
+
 export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) {
   const [form, setForm] = useState(emptyForm)
-  const [titleError, setTitleError] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<{ title?: string; description?: string }>({})
 
   useEffect(() => {
     if (open) {
       setForm(emptyForm)
-      setTitleError(false)
+      setFieldErrors({})
     }
   }, [open])
 
   const handleSubmit = () => {
-    const title = form.title.trim()
-    if (!title) {
-      setTitleError(true)
-      return
+    try {
+      const data = newTaskFormSchema.validateSync(form, { abortEarly: false, stripUnknown: true })
+      setFieldErrors({})
+      const descriptionTrimmed = (data.description ?? '').trim()
+      onAddTask({
+        title: data.title ?? '',
+        description: descriptionTrimmed === '' ? undefined : descriptionTrimmed,
+        status: data.status as TaskFormStatusValue,
+        priority: data.priority as TaskFormPriorityValue,
+        dueDate: dueDateFromInput(data.dueDate ?? ''),
+      })
+      onClose()
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        setFieldErrors(validationErrorsFromYup(err))
+      } else {
+        throw err
+      }
     }
-    setTitleError(false)
-    onAddTask({
-      title,
-      description: form.description.trim() || undefined,
-      status: form.status,
-      priority: form.priority,
-      dueDate: dueDateFromInput(form.dueDate),
-    })
-    onClose()
   }
 
   return (
@@ -110,15 +142,15 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
             value={form.title}
             onChange={(e) => {
               setForm((f) => ({ ...f, title: e.target.value }))
-              if (titleError) setTitleError(false)
+              if (fieldErrors.title) setFieldErrors((prev) => ({ ...prev, title: undefined }))
             }}
             placeholder="What needs to be done?"
             fullWidth
             size="small"
-            error={titleError}
-            helperText={titleError ? 'Enter a task name' : undefined}
+            error={Boolean(fieldErrors.title)}
+            helperText={fieldErrors.title}
             aria-label="Task name"
-            slotProps={{ htmlInput: { 'aria-required': true } }}
+            slotProps={{ htmlInput: { 'aria-required': true, maxLength: MAX_TITLE_LEN } }}
             sx={{
               '& .MuiOutlinedInput-root': { borderRadius: 2 },
             }}
@@ -130,13 +162,19 @@ export function NewTaskDrawer({ open, onClose, onAddTask }: NewTaskDrawerProps) 
           </Typography>
           <TextField
             value={form.description}
-            onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+            onChange={(e) => {
+              setForm((f) => ({ ...f, description: e.target.value }))
+              if (fieldErrors.description) setFieldErrors((errs) => ({ ...errs, description: undefined }))
+            }}
             placeholder="Add details…"
             fullWidth
             size="small"
             multiline
             minRows={3}
+            error={Boolean(fieldErrors.description)}
+            helperText={fieldErrors.description}
             aria-label="Task description"
+            slotProps={{ htmlInput: { maxLength: MAX_DESCRIPTION_LEN } }}
             sx={{
               '& .MuiOutlinedInput-root': { borderRadius: 2 },
             }}

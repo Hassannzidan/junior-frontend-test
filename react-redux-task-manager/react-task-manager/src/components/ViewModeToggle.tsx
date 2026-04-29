@@ -3,8 +3,9 @@ import ButtonBase from '@mui/material/ButtonBase'
 import { useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { IconLayoutGrid, IconList } from '@tabler/icons-react'
+import type { ViewMode } from '../types/viewMode'
 
-export type ViewMode = 'list' | 'board'
+export type { ViewMode }
 
 export type ViewModeToggleProps = {
   value: ViewMode
