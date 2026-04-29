@@ -1,18 +1,18 @@
 import { createTheme } from '@mui/material/styles'
-import { brand, getSemanticColors, neutral } from './tokens/colors'
-import { breakpointValues } from './tokens/breakpoints'
-import { spacingUnit } from './tokens/spacing'
+import { brand, neutral } from './tokens/colors'
 import { buildTypographyVariants } from './tokens/typography'
 
-export function createAppTheme() {
-  const semantic = getSemanticColors()
+const breakpoints = {
+  values: { xs: 0, sm: 600, md: 900, lg: 1024, xl: 1440 },
+} as const
 
+export function createAppTheme() {
   const baseTheme = createTheme({
-    spacing: spacingUnit,
-    breakpoints: {
-      values: { ...breakpointValues },
-    },
+    spacing: 8,
+    breakpoints,
   })
+
+  const primaryHover = '#6A56E5'
 
   return createTheme(baseTheme, {
     palette: {
@@ -31,11 +31,11 @@ export function createAppTheme() {
       },
       action: {
         hover: 'rgba(123, 104, 238, 0.06)',
-        selected: semantic.subtleFill,
+        selected: neutral[100],
       },
       primary: {
         main: brand.purple,
-        dark: semantic.primaryHover,
+        dark: primaryHover,
         contrastText: brand.white,
       },
       secondary: {
@@ -59,15 +59,15 @@ export function createAppTheme() {
         contrastText: brand.white,
       },
       background: {
-        default: semantic.backgroundDefault,
-        paper: semantic.backgroundPaper,
+        default: neutral[50],
+        paper: brand.white,
       },
       text: {
-        primary: semantic.textPrimary,
-        secondary: semantic.textSecondary,
-        disabled: semantic.textDisabled,
+        primary: brand.shark,
+        secondary: neutral[500],
+        disabled: neutral[400],
       },
-      divider: semantic.divider,
+      divider: neutral[200],
     },
     typography: buildTypographyVariants(baseTheme.breakpoints),
     shape: {
@@ -103,4 +103,3 @@ export function createAppTheme() {
     },
   })
 }
-

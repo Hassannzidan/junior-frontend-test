@@ -1,12 +1,6 @@
 import type { Breakpoints, TypographyVariantsOptions } from '@mui/material/styles'
 import { fontFamily } from './fonts'
 
-/**
- * Typography variants using `theme.breakpoints` so `lg` stays in sync with `breakpointValues`.
- * Built in `createAppTheme` after a base theme with breakpoints exists (see MUI deep-merge pattern).
- *
- * Heading scale uses ~1.2–1.25× steps between levels; h4 stays larger than body1 on `lg` for clear structure.
- */
 export function buildTypographyVariants(
   breakpoints: Breakpoints,
 ): TypographyVariantsOptions {

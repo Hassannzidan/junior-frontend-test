@@ -23,10 +23,8 @@ export function filterTasks(
     result = result.filter((t) => t.priority === priorityFilter)
   }
 
-  if (statusFilter === 'active') {
-    result = result.filter((t) => t.status !== 'complete')
-  } else if (statusFilter === 'completed') {
-    result = result.filter((t) => t.status === 'complete')
+  if (statusFilter !== 'all') {
+    result = result.filter((t) => t.status === statusFilter)
   }
 
   return result

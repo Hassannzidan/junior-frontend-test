@@ -69,14 +69,20 @@ const loadState = (): TasksState => {
         v === 'all' || v === 'urgent' || v === 'high' || v === 'medium' || v === 'low'
 
       const statusOk = (v: unknown): v is StatusFilterValue =>
-        v === 'all' || v === 'active' || v === 'completed'
+        v === 'all' || v === 'todo' || v === 'in_progress' || v === 'complete'
+
+      const migrateFilterStatus = (v: unknown): StatusFilterValue => {
+        if (v === 'completed') return 'complete'
+        if (v === 'active') return 'all'
+        return statusOk(v) ? v : 'all'
+      }
 
       return {
         ...defaultState(),
         ...parsed,
         items,
         filterPriority: priorityOk(parsed.filterPriority) ? parsed.filterPriority : 'all',
-        filterStatus: statusOk(parsed.filterStatus) ? parsed.filterStatus : 'all',
+        filterStatus: migrateFilterStatus(parsed.filterStatus),
         layout: parsed.layout === 'board' ? 'board' : 'list',
         search: typeof parsed.search === 'string' ? parsed.search : '',
       }
