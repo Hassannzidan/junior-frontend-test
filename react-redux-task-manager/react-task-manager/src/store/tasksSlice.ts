@@ -2,6 +2,7 @@ import { createSlice, nanoid, type PayloadAction } from '@reduxjs/toolkit'
 import type { PriorityFilterValue, StatusFilterValue } from '../constants/taskFilters'
 import type { Task, TaskStatus } from '../types/task'
 import type { ViewMode } from '../types/components'
+import { safeStorageGet, safeStorageRemove } from '../utils/storage'
 
 export interface TasksState {
   items: Task[]
@@ -55,9 +56,9 @@ const defaultState = (): TasksState => ({
 const loadState = (): TasksState => {
   try {
     for (const key of LEGACY_STORAGE_KEYS) {
-      localStorage.removeItem(key)
+      safeStorageRemove(key)
     }
-    const raw = localStorage.getItem(STORAGE_KEY)
+    const raw = safeStorageGet(STORAGE_KEY)
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<TasksState>
       const rawItems = Array.isArray(parsed.items) ? parsed.items : []
