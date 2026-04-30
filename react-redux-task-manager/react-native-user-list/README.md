@@ -1,50 +1,111 @@
-# Welcome to your Expo app 👋
+# React Native User List (Mobile)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Scalable Expo + React Native application that fetches, caches, and displays users from the JSONPlaceholder API using Redux Toolkit.
 
-## Get started
+## Objective
 
-1. Install dependencies
+Build a mobile user directory that demonstrates:
+- Redux state management
+- API integration with robust loading/error handling
+- offline-friendly caching
+- optimized list rendering
+- reusable component design
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+- Expo (React Native)
+- TypeScript
+- Redux Toolkit + React Redux
+- Redux Persist
+- AsyncStorage (native) / localStorage fallback on web
+- Axios
+- Expo Router
 
-   ```bash
-   npx expo start
-   ```
+## Requirement Coverage
 
-In the output, you'll find options to open the app in a
+### 1) Redux State Management
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+User data and UI state are managed in Redux:
+- normalized user entities (`entities` + `ids`)
+- loading statuses (`idle`, `loading`, `loadingMore`, `succeeded`)
+- pagination metadata (`nextFetchStart`, `hasMore`, `totalCount`)
+- search query and error state
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 2) API Integration
 
-## Get a fresh project
+- Data fetched from:
+  - `https://jsonplaceholder.typicode.com/users`
+- API layer separated in dedicated modules (`api/client`, `api/http`, `api/users.api`)
+- Users stored in Redux via async thunks
 
-When you're ready, run:
+### 3) Offline Support
+
+- Cached data persisted using Redux Persist
+- Storage strategy:
+  - AsyncStorage on mobile
+  - localStorage-compatible web storage for Expo Web
+
+### 4) FlatList Optimization
+
+Implemented with performance-oriented `FlatList` props:
+- `initialNumToRender`
+- `maxToRenderPerBatch`
+- `windowSize`
+- `removeClippedSubviews` on Android
+
+### 5) Features
+
+- Reusable `UserCard` displays:
+  - name
+  - email
+  - transformed address
+- Search bar filters by user name
+- Pagination through **Load More** button
+- Pull-to-refresh and retry/error UX
+
+### 6) Data Transformation
+
+API address fields are combined into:
+- `street, city, zipcode`
+
+Implemented in `utils/mapUser.ts`.
+
+## Architecture Highlights
+
+- `store/usersSlice.ts`: async thunks + normalized state + selectors
+- `store/index.ts`: store + persistence setup
+- `api/`: isolated networking layer with interceptors
+- `components/users/`: reusable domain UI components
+- `app/(tabs)/` + `app/user/[id].tsx`: routed screens
+
+## Performance Notes
+
+- Memoized `UserCard` component (`React.memo`)
+- Selector-driven filtering
+- Incremental pagination to avoid rendering full dataset at once
+- Debounced search input update flow to reduce per-keystroke Redux churn
+
+## How to Run
 
 ```bash
-npm run reset-project
+npm install
+npm run start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Run on specific platforms:
 
-## Learn more
+```bash
+npm run android
+npm run ios
+npm run web
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Lint:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npm run lint
+```
 
-## Join the community
+## Evaluation Readiness Summary
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project fulfills the mobile task requirements (Redux + API + caching + FlatList + search + pagination + transformation) and includes practical production-minded improvements in architecture, resilience, and rendering performance.
