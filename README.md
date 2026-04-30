@@ -31,8 +31,7 @@
   </details>
 
   ### Web Demo
-
-  - **Web GIF:**
+  
 <img width="1908" height="878" alt="test-web" src="https://github.com/user-attachments/assets/a6aafa75-54af-415e-912a-909b5beedfb6" />
 
 | View | Demo |
@@ -86,5 +85,5 @@
   ## Reviewer Navigation
 
   For complete technical details, start from:
-  - [`react-task-manager/README.md`](./react-task-manager/README.md)
-  - [`react-native-user-list/README.md`](./react-native-user-list/README.md)
+  - [`react-task-manager/README.md`](https://github.com/Hassannzidan/junior-frontend-test/blob/main/react-redux-task-manager/react-task-manager/README.md)
+  - [`react-native-user-list/README.md`](https://github.com/Hassannzidan/junior-frontend-test/blob/main/react-redux-task-manager/react-native-user-list/README.md)
