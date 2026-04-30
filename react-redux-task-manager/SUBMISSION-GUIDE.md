@@ -82,6 +82,10 @@
   - **Persistence:** localStorage (web), Redux Persist + AsyncStorage (mobile).
   - **Performance:** Debounced search, memoized render paths, paginated loading, and optimized list rendering.
   - **Code Quality:** TypeScript usage, reusable UI components, isolated API layer, and clear separation of concerns.
+  - Added selector layer (`tasksSelectors`) for stable derived-state access.
+  - Synced filters/search/layout to URL for shareable state + browser navigation consistency.
+  - Added app-level error boundary and safe storage wrappers for runtime resilience.
+  - Added focused tests for reducers/selectors/storage to lock in core behavior.
 
   ## Reviewer Navigation
 

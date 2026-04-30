@@ -56,11 +56,25 @@ Task model includes:
 ## Architecture Highlights
 
 - `src/store/tasksSlice.ts`: core reducers and storage bootstrap logic
+- `src/store/tasksSelectors.ts`: selector layer for slice reads + derived data
 - `src/store/index.ts`: store configuration + persistence subscription
 - `src/components/features/`: feature-oriented UI blocks
 - `src/components/features/task-list/`: list and board rendering layers
 - `src/utils/filterTasks.ts`: centralized filtering logic
+- `src/utils/storage.ts`: guarded localStorage wrapper helpers
 - `src/hooks/useTaskActions.ts`: action dispatch wrappers
+
+## URL-Synced Task State
+
+- Search, priority, status, and board/list mode are synchronized with URL query params.
+- Search synchronization is debounced to keep browsing behavior smooth while preserving shareable links.
+- Browser back/forward updates Redux state so filters and view restore correctly.
+
+## Reliability and Safety
+
+- App-level error boundary prevents hard crashes from unhandled render errors.
+- Storage access is centralized through safe utility wrappers with graceful fallback on failures.
+- Persisted state rehydration continues to sanitize legacy/invalid payloads.
 
 ## Performance Notes
 
