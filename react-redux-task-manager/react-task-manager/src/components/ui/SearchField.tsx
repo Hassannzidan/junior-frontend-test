@@ -8,6 +8,7 @@ export function SearchField({
   onChange,
   placeholder = 'Search tasks...',
   'aria-label': ariaLabel = 'Search tasks',
+  name,
 }: SearchFieldProps) {
   return (
     <TextField
@@ -19,6 +20,7 @@ export function SearchField({
       fullWidth
       slotProps={{
         input: {
+          name,
           startAdornment: (
             <InputAdornment position="start" sx={{ color: 'text.secondary', mr: 4 / 8 }}>
               <IconSearch size={18} stroke={1.75} aria-hidden />

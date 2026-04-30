@@ -25,6 +25,7 @@ export type FilterSelectProps<Options extends readonly FilterOption<string>[] = 
   onChange: (value: FilterValueUnion<Options>) => void
   options: Options
   ariaLabel: string
+  name?: string
 }
 
 export type AppDrawerProps = {
@@ -55,6 +56,7 @@ export type SearchFieldProps = {
   onChange: (value: string) => void
   placeholder?: string
   'aria-label'?: string
+  name?: string
 }
 
 export type WorkspaceHeaderProps = {

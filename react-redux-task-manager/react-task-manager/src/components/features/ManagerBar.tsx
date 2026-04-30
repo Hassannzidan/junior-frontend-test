@@ -24,10 +24,10 @@ export function ManagerBar({
     <Box component="nav" aria-label="Task tools" sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1.5, py: 2, px: { xs: 2, sm: 3 } }}>
       <ViewModeToggle value={view} onChange={onViewChange} />
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} useFlexGap sx={{ flex: 1, minWidth: 0, alignItems: { sm: 'center' } }}>
-        <SearchField value={search} onChange={onSearchChange} />
+        <SearchField value={search} onChange={onSearchChange} name="q" />
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} useFlexGap sx={{ alignItems: { sm: 'center' } }}>
-          <FilterSelect value={priority} onChange={onPriorityChange} options={PRIORITY_FILTER_OPTIONS} ariaLabel="Filter by priority" />
-          <FilterSelect value={status} onChange={onStatusChange} options={STATUS_FILTER_OPTIONS} ariaLabel="Filter by status" />
+          <FilterSelect value={priority} onChange={onPriorityChange} options={PRIORITY_FILTER_OPTIONS} ariaLabel="Filter by priority" name="priority" />
+          <FilterSelect value={status} onChange={onStatusChange} options={STATUS_FILTER_OPTIONS} ariaLabel="Filter by status" name="status" />
         </Stack>
       </Stack>
       <PrimaryPillButton type="button" onClick={onNewTaskClick}>

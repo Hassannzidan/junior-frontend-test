@@ -24,6 +24,7 @@ export function FilterSelect<const Options extends readonly FilterOption<string>
   onChange,
   options,
   ariaLabel,
+  name,
 }: FilterSelectProps<Options>) {
   type V = FilterValueUnion<Options>
 
@@ -54,7 +55,7 @@ export function FilterSelect<const Options extends readonly FilterOption<string>
         value={value}
         onChange={handleChange}
         displayEmpty
-        inputProps={{ 'aria-label': ariaLabel }}
+        inputProps={{ 'aria-label': ariaLabel, name }}
         IconComponent={Chevron}
         renderValue={(selected) => {
           const opt = options.find((o) => o.value === selected)
