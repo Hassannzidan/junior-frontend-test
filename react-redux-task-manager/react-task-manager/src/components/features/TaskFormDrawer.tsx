@@ -7,7 +7,13 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { IconX } from '@tabler/icons-react'
 import * as yup from 'yup'
-import { AppDrawer, AppDrawerHeaderRow, FilterSelect, PrimaryPillButton } from '@/components/ui'
+import {
+  AppDrawer,
+  AppDrawerHeaderRow,
+  FilterSelect,
+  FormFieldBlock,
+  PrimaryPillButton,
+} from '@/components/ui'
 import {
   NEW_TASK_FORM_FIELD_LIMITS,
   TASK_FORM_PRIORITY_OPTIONS,
@@ -104,10 +110,7 @@ export function TaskFormDrawer({
       }
     >
       <Stack spacing={2.5}>
-        <div>
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-            Task name
-          </Typography>
+        <FormFieldBlock label="Task name">
           <TextField
             value={form.title}
             onChange={(e) => {
@@ -123,11 +126,8 @@ export function TaskFormDrawer({
             slotProps={{ htmlInput: { 'aria-required': true, maxLength: titleMax } }}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
-        </div>
-        <div>
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-            Description
-          </Typography>
+        </FormFieldBlock>
+        <FormFieldBlock label="Description">
           <TextField
             value={form.description}
             onChange={(e) => {
@@ -145,25 +145,20 @@ export function TaskFormDrawer({
             slotProps={{ htmlInput: { maxLength: descriptionMax } }}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
-        </div>
+        </FormFieldBlock>
         <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2.5, alignItems: 'stretch' }}>
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-              Status
-            </Typography>
+            <FormFieldBlock label="Status">
             <FilterSelect value={form.status} onChange={(value) => setForm((f) => ({ ...f, status: value }))} options={TASK_FORM_STATUS_OPTIONS} ariaLabel="Task status" />
+            </FormFieldBlock>
           </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-              Priority
-            </Typography>
+            <FormFieldBlock label="Priority">
             <FilterSelect value={form.priority} onChange={(value) => setForm((f) => ({ ...f, priority: value }))} options={TASK_FORM_PRIORITY_OPTIONS} ariaLabel="Task priority" />
+            </FormFieldBlock>
           </Box>
         </Box>
-        <div>
-          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
-            Due date
-          </Typography>
+        <FormFieldBlock label="Due date">
           <TextField
             type="date"
             value={form.dueDate}
@@ -174,7 +169,7 @@ export function TaskFormDrawer({
             slotProps={{ inputLabel: { shrink: true } }}
             sx={{ '& .MuiOutlinedInput-root': { borderRadius: 2 } }}
           />
-        </div>
+        </FormFieldBlock>
       </Stack>
     </AppDrawer>
   )

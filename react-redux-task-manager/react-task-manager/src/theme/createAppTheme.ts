@@ -12,7 +12,7 @@ export function createAppTheme() {
     breakpoints,
   })
 
-  const primaryHover = '#6A56E5'
+  const primaryHover = '#5A47D6'
 
   return createTheme(baseTheme, {
     palette: {

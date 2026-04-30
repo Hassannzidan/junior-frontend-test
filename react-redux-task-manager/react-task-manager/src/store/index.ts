@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { type TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { safeStorageSet } from '../utils/storage'
 import { STORAGE_KEY, tasksReducer } from './tasksSlice'
 
 export const store = configureStore({
@@ -7,11 +8,7 @@ export const store = configureStore({
 })
 
 store.subscribe(() => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(store.getState().tasks))
-  } catch {
-    /* ignore */
-  }
+  safeStorageSet(STORAGE_KEY, JSON.stringify(store.getState().tasks))
 })
 
 export type RootState = ReturnType<typeof store.getState>
