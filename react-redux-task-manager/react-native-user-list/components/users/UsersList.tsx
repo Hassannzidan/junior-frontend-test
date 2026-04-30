@@ -21,6 +21,7 @@ import { UserCard } from '@/components/users/UserCard';
 import { UserDirectoryHeader } from '@/components/users/UserDirectoryHeader';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import {
   clearError,
   fetchUsersPage,
@@ -49,8 +50,20 @@ export function UsersList({ autoFocusSearch = false }: Props) {
   const error = useAppSelector(selectUsersError);
   const searchQuery = useAppSelector((s) => s.users.searchQuery);
   const idsLen = useAppSelector((s) => s.users.ids.length);
+  const [searchInput, setSearchInput] = useState(searchQuery);
+  const debouncedSearchInput = useDebouncedValue(searchInput, 300);
 
   const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  useEffect(() => {
+    setSearchInput(searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (debouncedSearchInput !== searchQuery) {
+      dispatch(setSearchQuery(debouncedSearchInput));
+    }
+  }, [debouncedSearchInput, dispatch, searchQuery]);
 
   useEffect(() => {
     if (idsLen === 0) {
@@ -72,9 +85,9 @@ export function UsersList({ autoFocusSearch = false }: Props) {
 
   const onSearchChange = useCallback(
     (text: string) => {
-      dispatch(setSearchQuery(text));
+      setSearchInput(text);
     },
-    [dispatch]
+    []
   );
 
   const onLoadMorePress = useCallback(() => {
@@ -132,7 +145,7 @@ export function UsersList({ autoFocusSearch = false }: Props) {
   return (
     <View style={styles.root}>
       <UserDirectoryHeader />
-      <SearchBar value={searchQuery} onChangeText={onSearchChange} autoFocus={autoFocusSearch} />
+      <SearchBar value={searchInput} onChangeText={onSearchChange} autoFocus={autoFocusSearch} />
       {error && (
         <ErrorBanner error={error} onDismiss={onDismissError} onRetry={onRetry} />
       )}
